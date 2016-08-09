@@ -9,6 +9,6 @@ class Question(models.Model):
   user = models.ForeignKey(User, unique=True)
   title = models.CharField(max_length=200)
   content = models.CharField(max_length=200)
-  pub_date = models.DateTimeField()
-  mod_date = models.DateTimeField()
+  pub_time = models.DateTimeField(auto_now_add=True)
+  mod_time = models.DateTimeField()
   active = models.BooleanField(default=True)
