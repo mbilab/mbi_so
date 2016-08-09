@@ -1,4 +1,20 @@
-form(method='post')
-  - csrf_token
-  {{ form.as_p }}
-  button(type='submit') Save
+extends base
+
+- load widget_tweaks
+block content
+  h1.ui.header mbi stackoverflow
+  form.ui.form(method='post')
+    - csrf_token
+    .field
+      label Title
+      {{ form.title }}
+    .field
+      label Content
+      {{ form.content }}
+    a.ui.basic.button(href='{% url "so_app:index" %}')
+      i.remove.icon
+      | Cancel
+    button.ui.basic.primary.button(type='submit')
+      i.plus.icon
+      | Ask
+// vi:et:sw=2:ts=2

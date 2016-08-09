@@ -14,8 +14,11 @@ class IndexView(generic.ListView):
 
 class QuestionCreateView(generic.CreateView):
   model = Question
-  fields = ['user', 'title', 'content']
+  fields = ['title', 'content']
   template_name = 'so_app/question_form.jade'
+  def form_valid(self, form):
+    form.instance.user = get_object_or_404(User, pk=1)
+    return super(QuestionCreateView, self).form_valid(form)
 
 class QuestionDetailView(generic.CreateView):
   model = Answer
