@@ -1,0 +1,17 @@
+extends 'base.jade'
+- load render_bundle from webpack_loader
+
+block title
+  title Django-Webpack pack
+
+block css
+  - render_bundle 'main' 'css'
+
+block content
+  i.comment.icon
+  span Hello World!
+
+block js
+  - render_bundle 'main' 'js'
+
+// - vi:et:sw=2:sts=2

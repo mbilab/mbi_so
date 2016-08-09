@@ -1,0 +1,13 @@
+Django==1.9.7
+django-lint==2.0.4
+django-webpack-loader==0.3.0
+logilab-astng==0.24.3
+logilab-common==1.2.2
+pbr==1.10.0
+pyjade==4.0.0
+pylint==0.28.0
+six==1.10.0
+stevedore==1.17.0
+virtualenv==15.0.2
+virtualenv-clone==0.2.6
+virtualenvwrapper==4.7.1
