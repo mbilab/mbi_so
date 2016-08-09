@@ -18,3 +18,7 @@ Start webpack
 Start Django app
 
     ./manage.py runserver
+
+Add fake data
+
+    ./manage.py loaddata mock-data.json
