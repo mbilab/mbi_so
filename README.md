@@ -12,6 +12,7 @@ Init database
     ./manage.py migrate
 
 Start webpack
+
     npm start
 
 Start Django app
