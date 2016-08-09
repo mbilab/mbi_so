@@ -1,18 +1,16 @@
-- load render_bundle from webpack_loader
-head
-  title mbi stackoverflow
-  .ui.container
-    h1.ui.header mbi stackoverflow
-    p: a.ui.primary.basic.button(href='{% url "so_app:question-create" %}')
-      i.add.circle.icon
-      | Ask a question
-    .ui.divided.list
-      for question in question_list
-        .item
-          i.large.middle.aligned.user.icon
-          .content
-            a.header(href='{% url "so_app:question-detail" question.id %}') {{ question.title }}
-            .content ({{ question.answer_set.all.count }} answers)
-    p {{ question_list.count }} questions
-- render_bundle 'main'
+extends base
+
+block content
+  h1.ui.header mbi stackoverflow
+  p: a.ui.primary.basic.button(href='{% url "so_app:question-create" %}')
+    i.plus.icon
+    | Ask a question
+  h2 {{ question_list.count }} questions
+  .ui.relaxed.divided.list
+    for question in question_list
+      .item
+        i.large.middle.aligned.user.icon
+        .content
+          a.header(href='{% url "so_app:question-detail" question.id %}') {{ question.title }}
+          .description ({{ question.answer_set.all.count }} answers)
 // vi:et:sw=2:ts=2

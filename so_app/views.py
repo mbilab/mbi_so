@@ -1,5 +1,6 @@
 from django.views import generic
 from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.models import User
 
 from .forms import AnswerForm
 from .models import Question, Answer
@@ -18,9 +19,10 @@ class QuestionCreateView(generic.CreateView):
 
 class QuestionDetailView(generic.CreateView):
   model = Answer
-  fields = ['user', 'content']
+  fields = ['content']
   template_name = 'so_app/question_detail.jade'
   def form_valid(self, form):
+    form.instance.user = get_object_or_404(User, pk=1)
     form.instance.question = get_object_or_404(Question, pk=self.kwargs.get('pk'))
     return super(QuestionDetailView, self).form_valid(form)
   def get_context_data(self, **kwargs):
