@@ -7,18 +7,19 @@ from .models import Question, Answer
 # Create your views here.
 
 class IndexView(generic.ListView):
-  template_name = 'so_app/index.html'
+  template_name = 'so_app/index.jade'
   def get_queryset(self):
     return Question.objects.all()[:5]
 
 class QuestionCreateView(generic.CreateView):
   model = Question
   fields = ['user', 'title', 'content']
+  template_name = 'so_app/question_form.jade'
 
 class QuestionDetailView(generic.CreateView):
   model = Answer
   fields = ['user', 'content']
-  template_name = 'so_app/question_detail.html'
+  template_name = 'so_app/question_detail.jade'
   def form_valid(self, form):
     form.instance.question = get_object_or_404(Question, pk=self.kwargs.get('pk'))
     return super(QuestionDetailView, self).form_valid(form)

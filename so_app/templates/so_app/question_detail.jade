@@ -1,0 +1,9 @@
+h1 {{ question.title }}
+p {{ question.content }}
+form(method='post')
+  - csrf_token
+  {{ form.as_p }}
+  button(type='submit') Save
+ul
+  for answer in question.answer_set.all
+    li {{ answer.content }}
