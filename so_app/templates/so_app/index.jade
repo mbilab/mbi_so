@@ -1,3 +1,4 @@
+- load render_bundle from webpack_loader
 h1 mbi stackoverflow
 p: a(href='{% url "so_app:question-create" %}') Create question
 p {{ question_list.count }} questions
@@ -7,3 +8,4 @@ ul
       span.n-answer ({{ question.answer_set.all.count }} answers)
       | &nbsp;
       a(href='{% url "so_app:question-detail" question.id %}') {{ question.title }}
+- render_bundle 'main'

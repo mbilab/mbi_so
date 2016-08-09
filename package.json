@@ -1,0 +1,50 @@
+{
+  "name": "mbi_so",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "webpack -p --config webpack/webpack.config.js",
+    "postinstall": "pip install -r requirements.txt",
+    "lint:djg": "django-lint **/*.py",
+    "lint:ls": "ls-lint app/*.ls webpack.config.ls",
+    "lint:py": "pylint *.py **/*.py",
+    "lint:styl": "stylint app/",
+    "server": "python manage.py runserver 0.0.0.0:$(/bin/cat port || /bin/echo 8000)",
+    "start": "webpack --watch"
+  },
+  "license": "All rights reserved",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mbilab/mbi_so"
+  },
+  "author": {
+    "name": "andy23512",
+    "email": "andy23512@gmail.com"
+  },
+  "contributors": [
+    "Tien-Hao Chang <darby.chang@gmail.com>"
+  ],
+  "private": false,
+  "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "css-loader": "^0.23.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "gm": "^1.23.0",
+    "html-webpack-plugin": "^2.22.0",
+    "jquery": "^3.1.0",
+    "livescript": "^1.5.0",
+    "livescript-loader": "^0.1.5",
+    "ls-lint": "^0.1.0",
+    "nib": "^1.1.2",
+    "node-sass": "^3.8.0",
+    "sass-loader": "^4.0.0",
+    "semantic-ui": "^2.2.2",
+    "style-loader": "^0.13.1",
+    "stylint": "^1.5.6",
+    "webpack": "^1.13.1",
+    "webpack-bundle-tracker": "0.0.93",
+    "webpack-dev-middleware": "^1.6.1",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
