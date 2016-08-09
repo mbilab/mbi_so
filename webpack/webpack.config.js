@@ -17,7 +17,7 @@ module.exports = {
   output: {
     filename: 'app.js',
     path: 'static',
-    publicPath: 'static/',
+    publicPath: '/static/',
   },
   plugins: [
     new ExtractTextWebpackPlugin('app.css'),
