@@ -4,13 +4,14 @@ from django.contrib.auth.models import User
 
 from .forms import AnswerForm
 from .models import Question, Answer
+from .settings import *
 
 # Create your views here.
 
 class IndexView(generic.ListView):
   template_name = 'so_app/index.jade'
   def get_queryset(self):
-    return Question.objects.all()[:5]
+    return Question.objects.all()[:INDEX_N_QUESTION]
 
 class QuestionCreateView(generic.CreateView):
   model = Question
