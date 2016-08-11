@@ -3,14 +3,15 @@
   "version": "0.0.1",
   "scripts": {
     "build": "webpack --progress --config webpack/webpack.config.js",
+    "django": "python manage.py runserver 0.0.0.0:$(/bin/cat port || /bin/echo 8000)",
     "postinstall": "pip install -r requirements.txt",
     "production": "webpack -p --progress --config webpack/webpack.config.js",
     "lint:djg": "django-lint **/*.py",
     "lint:ls": "ls-lint app/*.ls webpack.config.ls",
     "lint:py": "pylint *.py **/*.py",
     "lint:styl": "stylint app/",
-    "server": "python manage.py runserver 0.0.0.0:$(/bin/cat port || /bin/echo 8000)",
-    "start": "webpack --watch --config webpack/webpack.config.js"
+    "start": "./start.sh",
+    "webpack": "webpack --watch --config webpack/webpack.config.js"
   },
   "license": "All rights reserved",
   "repository": {
