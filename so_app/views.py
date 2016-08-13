@@ -1,5 +1,6 @@
 from django.views import generic
 from django.shortcuts import get_object_or_404, render
+from django.http import JsonResponse
 from django.contrib.auth.models import User
 
 from .forms import AnswerForm, QuestionForm
@@ -13,6 +14,13 @@ class IndexView(generic.edit.FormMixin, generic.ListView):
     template_name = 'so_app/index.jade'
     def get_queryset(self):
         return Question.objects.all()[:INDEX_N_QUESTION]
+
+def question_create(request):
+    #patient = get_object_or_404(Patient, id=request.POST['subject_id'])
+    #date = datetime.strptime(request.POST['date'], '%Y-%m-%d').date()
+    #trial = Trial.objects.create(subject_id=patient, date=date, clinical_comments=request.POST['clinical_comments'])
+    #trial.save()
+    return JsonResponse({'ok': True})
 
 class QuestionCreateView(generic.CreateView):
     model = Question

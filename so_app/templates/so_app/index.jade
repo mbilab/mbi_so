@@ -8,7 +8,7 @@ block content
   .ui.small.modal
     i.close.icon
     .header Ask a quesion
-    .content: form.ui.form(method='post')
+    .content: form.ui.form(action='{% url "so_app:question_create" %}',method='post')
       - csrf_token
       {{ form.as_p }}
     .actions
