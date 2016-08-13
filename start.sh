@@ -2,8 +2,8 @@
 npm=/usr/local/bin/npm
 tmux=/usr/local/bin/tmux
 
-cmd1="$npm run webpack"
-cmd2=". ~/.virtualenvs/mbi_so/bin/activate; $npm run django"
+cmd1="$npm run start-webpack"
+cmd2=". ~/.virtualenvs/mbi_so/bin/activate; $npm run start-django"
 
 # comment/un-comment `\; last-window` to control the window after servers start
 #     comment: stay in the servers window
