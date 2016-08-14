@@ -22,12 +22,12 @@ def question_create(request):
     if form.is_valid() == False:
         return JsonResponse(form.errors)
     user = get_object_or_404(User, pk=1) #! should be current login user
-    question = Question.object.create(
+    question = Question(
         user=user,
         title=request.POST['title'],
         content=request.POST['content']
     )
-    return JsonResponse(model_to_dict(question))
+    return JsonResponse(dict({'ok': True}, **model_to_dict(question)))
 
 class QuestionCreateView(generic.CreateView):
     model = Question
