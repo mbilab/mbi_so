@@ -1,6 +1,8 @@
+from datetime import datetime
 from django.views import generic
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
+from django.forms.models import model_to_dict
 from django.contrib.auth.models import User
 
 from .forms import AnswerForm, QuestionForm
@@ -16,11 +18,16 @@ class IndexView(generic.edit.FormMixin, generic.ListView):
         return Question.objects.all()[:INDEX_N_QUESTION]
 
 def question_create(request):
-    #patient = get_object_or_404(Patient, id=request.POST['subject_id'])
-    #date = datetime.strptime(request.POST['date'], '%Y-%m-%d').date()
-    #trial = Trial.objects.create(subject_id=patient, date=date, clinical_comments=request.POST['clinical_comments'])
-    #trial.save()
-    return JsonResponse({'ok': True})
+    form = QuestionForm(request.POST)
+    if form.is_valid() == False:
+        return JsonResponse(form.errors)
+    user = get_object_or_404(User, pk=1) #! should be current login user
+    question = Question.object.create(
+        user=user,
+        title=request.POST['title'],
+        content=request.POST['content']
+    )
+    return JsonResponse(model_to_dict(question))
 
 class QuestionCreateView(generic.CreateView):
     model = Question
