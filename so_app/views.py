@@ -1,3 +1,4 @@
+from django.db.models import Count
 from datetime import datetime
 from django.views import generic
 from django.shortcuts import get_object_or_404, render
@@ -11,7 +12,7 @@ from .settings import *
 
 # Create your views here.
 
-class IndexView(generic.edit.FormMixin, generic.ListView):
+class IndexView(generic.FormView):
     form_class = QuestionForm
     template_name = 'so_app/index.jade'
     def get_queryset(self):
@@ -29,14 +30,6 @@ def question_create(request):
     )
     return JsonResponse(dict({'ok': True}, **model_to_dict(question)))
 
-class QuestionCreateView(generic.CreateView):
-    model = Question
-    fields = ['title', 'content']
-    template_name = 'so_app/question_form.jade'
-    def form_valid(self, form):
-        form.instance.user = get_object_or_404(User, pk=1)
-        return super(QuestionCreateView, self).form_valid(form)
-
 class QuestionDetailView(generic.CreateView):
     model = Answer
     fields = ['content']
@@ -49,3 +42,7 @@ class QuestionDetailView(generic.CreateView):
         context = super(QuestionDetailView, self).get_context_data(**kwargs)
         context['question'] = Question.objects.get(pk=self.kwargs.get('pk'))
         return context
+
+def questions(request):
+    questions = Question.objects.all()[:INDEX_N_QUESTION].annotate(Count('answer'))
+    return JsonResponse(list(questions.values('pk', 'user', 'title', 'content', 'date', 'answer__count')), safe=False)

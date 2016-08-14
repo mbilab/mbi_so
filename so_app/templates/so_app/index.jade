@@ -14,12 +14,8 @@ block content
     .actions
       .ui.basic.cancel.button Cancel
       .ui.primary.basic.approve.button Ask
-  h2 {{ question_list.count }} questions
-  .ui.relaxed.divided.list
-    for question in question_list
-      .item
-        i.large.middle.aligned.user.icon
-        .content
-          a.header(href='{% url "so_app:question-detail" question.id %}') {{ question.title }}
-          .description ({{ question.answer_set.all.count }} answers)
+  #questions
+    h2
+    .ui.relaxed.divided.list
+
 // vi:et:sw=2:ts=2

@@ -4,7 +4,7 @@ const $ = window.jQuery = require('jquery/dist/jquery.js')
 require('semantic-ui/dist/semantic.js')
 require('jquery-form/jquery.form.js')
 
-// server-side error message //! resuable
+// server-side error message //! reusable
 const serverSideError = (err, $form) => {
    for (const key in err)
      $form.find(`[name='${key}']`).parent().addClass('error')
@@ -12,9 +12,14 @@ const serverSideError = (err, $form) => {
 }
 
 $(() => {
+  // style
   $('.ui.form > p').addClass('field')
     .find('label').append('<span/>')
-  $('.ui.form select').dropdown()
+
+  // behavior
+  $('#ask_button').click(() => {
+    $('.ui.modal').modal('show')
+  })
   $('.ui.modal').modal({
     onApprove: () => {
       $('form').submit()
@@ -24,7 +29,6 @@ $(() => {
       $('.ui.form .error.field').removeClass('error')
     }
   })
-
   $('form').ajaxForm({
     success: j => {
       if (j.ok) {
@@ -35,9 +39,37 @@ $(() => {
       }
     },
   })
-  $('#ask_button').click(() => {
-    $('.ui.modal').modal('show')
-  })
+  $('.ui.form select').dropdown()
+
+  // data
+  const loadQuestions = () => {
+    $.getJSON('./questions', j => {
+      console.log(j)
+      $('#questions h2').text(`${j.length} questions`)
+      const $list = $('#questions .list').empty()
+      j.forEach(x => {
+        const $item = $('<div/>', {
+          class: 'item',
+        }).appendTo($list)
+        $('<i/>', {
+          class: 'large middle aligned user icon',
+        }).appendTo($item)
+        const $content = $('<div/>', {
+          class: 'content',
+        }).appendTo($item)
+        $('<a/>', {
+          class: 'header',
+          href: '#',
+          text: x.title,
+        }).appendTo($content)
+        $('<div/>', {
+          class: 'description',
+          text: `(${x.answer__count} answers)`,
+        }).appendTo($content)
+      })
+    })
+  }
+  loadQuestions()
 });
 
 // vi:et
