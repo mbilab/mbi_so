@@ -8,13 +8,13 @@ $(() => {
   $('.ui.form > p').addClass('field')
   $('.ui.form select').dropdown()
 
+  $('form').ajaxForm({
+    beforeSubmit: () => { $('.ui.modal').modal('hide') },
+    success: j => { console.log(j) },
+  })
   $('#ask_button').click(() => {
     $('.ui.modal').modal({
-      onApprove: () => {
-        $('form').ajaxSubmit(j => {
-          console.log(j)
-        })
-      },
+      onApprove: () => { $('form').submit() },
     }).modal('show')
   })
 });

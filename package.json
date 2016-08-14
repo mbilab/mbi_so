@@ -36,11 +36,7 @@
     "gm": "^1.23.0",
     "html-webpack-plugin": "^2.22.0",
     "jquery": "^3.1.0",
-    "jquery-form": "^3.50.0"
-    "livescript": "^1.5.0",
-    "livescript-loader": "^0.1.5",
-    "ls-lint": "^0.1.0",
-    "nib": "^1.1.2",
+    "jquery-form": "^3.50.0",
     "node-sass": "^3.8.0",
     "sass-loader": "^4.0.0",
     "semantic-ui": "^2.2.2",
@@ -48,7 +44,6 @@
     "stylint": "^1.5.6",
     "webpack": "^1.13.1",
     "webpack-bundle-tracker": "0.0.93",
-    "webpack-dev-middleware": "^1.6.1",
     "webpack-dev-server": "^1.14.1"
   }
 }
