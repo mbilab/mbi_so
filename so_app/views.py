@@ -23,7 +23,7 @@ def question_create(request):
     if form.is_valid() == False:
         return JsonResponse(form.errors)
     user = get_object_or_404(User, pk=1) #! should be current login user
-    question = Question(
+    question = Question.objects.create(
         user=user,
         title=request.POST['title'],
         content=request.POST['content']

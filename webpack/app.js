@@ -32,8 +32,9 @@ $(() => {
   $('form').ajaxForm({
     success: j => {
       if (j.ok) {
-        console.log(j)
         $('.ui.modal').modal('hide')
+        loadQuestions()
+        $('form')[0].reset()
       } else {
         serverSideError(j, $('form'))
       }
