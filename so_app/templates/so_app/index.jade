@@ -15,7 +15,15 @@ block content
       .ui.basic.cancel.button Cancel
       .ui.primary.basic.approve.button Ask
   #questions
-    h2
+  script#questions-tmpl(type='x-tmpl-mustache')
+    h2.ui.header {questions.length} questions
     .ui.relaxed.divided.list
+      {#questions}
+      .item
+        i.large.middle.aligned.user.icon
+        .content
+          a.header(href='./question/{pk}') {title}
+          .description ({answer__count} answers)
+      {/questions}
 
 // vi:et:sw=2:ts=2

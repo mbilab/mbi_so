@@ -1,5 +1,6 @@
 import 'semantic-ui/dist/semantic.css'
 import './app.sass'
+import 'imports?define=>false,exports=>false,this=>window!mustache/mustache.js'
 const $ = window.jQuery = require('jquery/dist/jquery.js')
 require('semantic-ui/dist/semantic.js')
 require('jquery-form/jquery.form.js')
@@ -41,36 +42,25 @@ $(() => {
     },
   })
   $('.ui.form select').dropdown()
+  Mustache.tags = ['{', '}']
 
   // data
-  const loadQuestions = () => {
-    $.getJSON('./questions', j => {
-      console.log(j)
-      $('#questions h2').text(`${j.length} questions`)
-      const $list = $('#questions .list').empty()
-      j.forEach(x => {
-        const $item = $('<div/>', {
-          class: 'item',
-        }).appendTo($list)
-        $('<i/>', {
-          class: 'large middle aligned user icon',
-        }).appendTo($item)
-        const $content = $('<div/>', {
-          class: 'content',
-        }).appendTo($item)
-        $('<a/>', {
-          class: 'header',
-          href: '#',
-          text: x.title,
-        }).appendTo($content)
-        $('<div/>', {
-          class: 'description',
-          text: `(${x.answer__count} answers)`,
-        }).appendTo($content)
-      })
+  const loadAnswers = () => {
+    $.getJSON('./answers', j => {
+      const tmpl = $('#answers-tmpl').html()
+      $('#answers').html(Mustache.render(tmpl, j))
     })
   }
-  loadQuestions()
+  const loadQuestions = () => {
+    $.getJSON('./questions', j => {
+      const tmpl = $('#questions-tmpl').html()
+      $('#questions').html(Mustache.render(tmpl, j))
+    })
+  }
+  if ($('#answers').length)
+    loadAnswers()
+  else if ($('#questions').length)
+    loadQuestions()
 });
 
 // vi:et

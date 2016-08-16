@@ -12,6 +12,13 @@ from .settings import *
 
 # Create your views here.
 
+def answers(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    answers = question.answer_set.all()[:QUESTION_N_ANSWER]
+    return JsonResponse({
+        'answers': list(answers.values('user', 'content', 'date'))
+    })
+
 class IndexView(generic.FormView):
     form_class = QuestionForm
     template_name = 'so_app/index.jade'
@@ -45,4 +52,6 @@ class QuestionDetailView(generic.CreateView):
 
 def questions(request):
     questions = Question.objects.all()[:INDEX_N_QUESTION].annotate(Count('answer'))
-    return JsonResponse(list(questions.values('pk', 'user', 'title', 'content', 'date', 'answer__count')), safe=False)
+    return JsonResponse({
+        'questions': list(questions.values('pk', 'user', 'title', 'content', 'date', 'answer__count'))
+    })

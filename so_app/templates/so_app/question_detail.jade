@@ -14,10 +14,13 @@ block content
         i.plus.icon
         | Answer
   .ui.divider
-  h2.ui.header {{ question.answer_set.count }} answer(s)
-  .ui.relaxed.divided.list
-    for answer in question.answer_set.all
+  #answers
+  script#answers-tmpl(type='x-tmpl-mustache')
+    h2.ui.header {answers.length} answers
+    .ui.relaxed.divided.list
+      {#answers}
       .item
         i.large.middle.aligned.user.icon
-        .content {{ answer.content }}
+        .content {content}
+      {/answers}
 // vi:et:sw=2:ts=2
