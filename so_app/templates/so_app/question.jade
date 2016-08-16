@@ -5,7 +5,7 @@ block content
   h1.ui.header {{ question.title }}
   p {{ question.content }}
   .ui.divider
-  form.ui.form(method='post')
+  form.ui.form(action='{% url "so_app:answer_create" pk=question.pk %}',method='post')
     - csrf_token
     .inline.fields
       .thirteen.wide.field

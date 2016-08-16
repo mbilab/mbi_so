@@ -12,6 +12,22 @@ from .settings import *
 
 # Create your views here.
 
+def answer_create(request, pk):
+    form = AnswerForm(request.POST)
+    if form.is_valid() == False:
+        return JsonResponse(form.errors)
+    user = get_object_or_404(User, pk=1) #! should be current login user
+    question = get_object_or_404(Question, pk=pk)
+    answer = Answer.objects.create(
+        user=user,
+        question=question,
+        content=request.POST['content']
+    )
+    return JsonResponse(dict(
+        {'ok': True},
+        **model_to_dict(answer)
+    ))
+
 def answers(request, pk):
     question = get_object_or_404(Question, pk=pk)
     answers = question.answer_set.all()[:QUESTION_N_ANSWER]
@@ -35,16 +51,15 @@ def question_create(request):
         title=request.POST['title'],
         content=request.POST['content']
     )
-    return JsonResponse(dict({'ok': True}, **model_to_dict(question)))
+    return JsonResponse(dict(
+        {'ok': True},
+        **model_to_dict(question)
+    ))
 
 class QuestionDetailView(generic.CreateView):
     model = Answer
     fields = ['content']
-    template_name = 'so_app/question_detail.jade'
-    def form_valid(self, form):
-        form.instance.user = get_object_or_404(User, pk=1)
-        form.instance.question = get_object_or_404(Question, pk=self.kwargs.get('pk'))
-        return super(QuestionDetailView, self).form_valid(form)
+    template_name = 'so_app/question.jade'
     def get_context_data(self, **kwargs):
         context = super(QuestionDetailView, self).get_context_data(**kwargs)
         context['question'] = Question.objects.get(pk=self.kwargs.get('pk'))
