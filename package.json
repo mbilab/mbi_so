@@ -9,9 +9,9 @@
     "lint:styl": "stylint app/",
     "start": "./start.sh",
     "start-django": "./manage.py runserver 0.0.0.0:$(/bin/cat port || /bin/echo 8000)",
-    "start-webpack":       "webpack -w --progress --config webpack/webpack.config.babel.js",
+    "start-webpack": "webpack -w --progress --config webpack/webpack.config.babel.js",
     "webpack-development": "webpack    --progress --config webpack/webpack.config.babel.js",
-    "webpack-production":  "webpack -p --progress --config webpack/webpack.config.babel.js"
+    "webpack-production": "webpack -p --progress --config webpack/webpack.config.babel.js"
   },
   "license": "All rights reserved",
   "repository": {
@@ -38,6 +38,7 @@
     "imports-loader": "^0.6.5",
     "jquery": "^3.1.0",
     "jquery-form": "^3.50.0",
+    "moment": "^2.14.1",
     "mustache": "^2.2.1",
     "node-sass": "^3.8.0",
     "sass-loader": "^4.0.0",

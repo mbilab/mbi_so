@@ -1,4 +1,4 @@
-from django.db.models import Count
+from django.db.models import Count, F
 from datetime import datetime
 from django.views import generic
 from django.shortcuts import get_object_or_404, render
@@ -68,5 +68,5 @@ class QuestionDetailView(generic.CreateView):
 def questions(request):
     questions = Question.objects.all()[:INDEX_N_QUESTION].annotate(Count('answer'))
     return JsonResponse({
-        'questions': list(questions.values('pk', 'user', 'title', 'content', 'date', 'answer__count'))
+        'questions': list(questions.values('pk', 'user__username', 'title', 'content', 'date', 'answer__count'))
     })

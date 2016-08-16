@@ -17,13 +17,19 @@ block content
   #questions
   script#questions-tmpl(type='x-tmpl-mustache')
     h2.ui.header {questions.length} questions
-    .ui.relaxed.divided.list
+    .ui.divided.link.items
       {#questions}
-      .item
-        i.large.middle.aligned.user.icon
-        .content
-          a.header(href='./question/{pk}') {title}
-          .description ({answer__count} answers)
+      a.item(href='./question/{pk}')
+        .ui.tiny.statistic
+          .value {answer__count}
+          .label ans
+        .middle.aligned.content
+          .header {title}
+          .meta
+            i.user.icon
+            span {user__username}
+            i.calendar.outline.icon
+            span {date}
       {/questions}
 
 // vi:et:sw=2:ts=2

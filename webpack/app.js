@@ -1,10 +1,11 @@
 import 'semantic-ui/dist/semantic.css'
 import './app.sass'
 
+import 'imports?define=>false,exports=>false,this=>window!moment/moment.js'
 import 'imports?define=>false,exports=>false,this=>window!mustache/mustache.js'
 const $ = window.jQuery = require('jquery/dist/jquery.js')
-require('semantic-ui/dist/semantic.js')
 require('jquery-form/jquery.form.js')
+require('semantic-ui/dist/semantic.js')
 
 // server-side error message //! reusable
 window.serverSideError = (err, $form) => {
