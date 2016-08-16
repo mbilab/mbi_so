@@ -18,7 +18,7 @@ $(() => {
     .find('label').append('<span/>')
 
   // behavior
-  $('#ask_button').click(() => {
+  $('#ask-button').click(() => {
     $('.ui.modal').modal('show')
   })
   $('.ui.modal').modal({
