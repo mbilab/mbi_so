@@ -1,4 +1,4 @@
-from django.db.models import Count, F
+from django.db.models import NullBooleanField, Case, Count, F, Q, When
 from datetime import datetime
 from django.views import generic
 from django.shortcuts import get_object_or_404, render
@@ -30,9 +30,14 @@ def answer_create(request, pk):
 
 def answers(request, pk):
     question = get_object_or_404(Question, pk=pk)
-    answers = question.answer_set.all()[:QUESTION_N_ANSWER].annotate(Count('vote'))
+    up_count   = Count(Case(When(vote__weight=True,  then=1)))
+    down_count = Count(Case(When(vote__weight=False, then=1)))
+    answers = question.answer_set.all()[:QUESTION_N_ANSWER].annotate(
+        vote__count=up_count - down_count,
+        vote__weight=Case(When(vote__user=1, then=F('vote__weight')), default=None, output_field=NullBooleanField()) #! should be current login user
+    )
     return JsonResponse({
-        'answers': list(answers.values('pk', 'vote__count', 'user__username', 'date', 'content'))
+        'answers': list(answers.values('pk', 'vote__weight', 'vote__count', 'user__username', 'date', 'content'))
     })
 
 class IndexView(generic.FormView):
@@ -84,9 +89,7 @@ def vote(request, pk, weight):
     votes = Vote.objects.filter(user=user, answer=answer)
     if votes.count() > 0:
         vote = votes[0]
-        if vote.weight == weight:
-            return JsonResponse({'error': 'voted'})
-        vote.weight = weight
+        vote.weight = None if vote.weight == weight else weight
         vote.save()
     else:
         vote = Vote.objects.create(

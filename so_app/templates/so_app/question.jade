@@ -29,11 +29,11 @@ block content
         .image
           form(action='./answer/{pk}/vote/up')
             - csrf_token
-            button.ui.basic.mini.icon.button(type='submit'): i.chevron.up.icon
+            button.ui.mini.icon.button(class='{up_btn}',type='submit'): i.chevron.up.icon
           div {vote__count}
           form(action='./answer/{pk}/vote/down')
             - csrf_token
-            button.ui.basic.mini.icon.button(type='submit'): i.chevron.down.icon
+            button.ui.mini.icon.button(class='{down_btn}',type='submit'): i.chevron.down.icon
         .content
           .meta
             i.user.icon
