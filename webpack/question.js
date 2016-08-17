@@ -1,15 +1,21 @@
 ($ => {
   // behavior
-  $('form').ajaxForm({
+  $('#answer-form').ajaxForm({
     success: j => {
       if (j.ok) {
-        $('.ui.form .error.field').removeClass('error')
+        $('#answer-form .error.field').removeClass('error')
         loadAnswers()
-        $('form')[0].reset()
+        $('#answer-form')[0].reset()
       } else {
-        serverSideError(j, $('form'))
+        serverSideError(j, $('#answer-form'))
       }
     },
+  })
+  $('#answers').on('click', 'button[type="submit"]', function(){
+    $(this).parent('form').ajaxSubmit(j => {
+      loadAnswers()
+    })
+    return false
   })
 
   // data

@@ -7,7 +7,7 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.models import User
 
 from .forms import AnswerForm, QuestionForm
-from .models import Answer, Question
+from .models import *
 from .settings import *
 
 # Create your views here.
@@ -30,9 +30,9 @@ def answer_create(request, pk):
 
 def answers(request, pk):
     question = get_object_or_404(Question, pk=pk)
-    answers = question.answer_set.all()[:QUESTION_N_ANSWER]
+    answers = question.answer_set.all()[:QUESTION_N_ANSWER].annotate(Count('vote'))
     return JsonResponse({
-        'answers': list(answers.values('user__username', 'date', 'content'))
+        'answers': list(answers.values('pk', 'vote__count', 'user__username', 'date', 'content'))
     })
 
 class IndexView(generic.FormView):
@@ -76,3 +76,25 @@ def questions(request):
     return JsonResponse({
         'questions': list(questions.values('pk', 'answer__count', 'user__username', 'date', 'title', 'content'))
     })
+
+def vote(request, pk, weight):
+    user = get_object_or_404(User, pk=1) #! should be current login user
+    answer = get_object_or_404(Answer, pk=pk)
+    weight = weight == 'up'
+    votes = Vote.objects.filter(user=user, answer=answer)
+    if votes.count() > 0:
+        vote = votes[0]
+        if vote.weight == weight:
+            return JsonResponse({'error': 'voted'})
+        vote.weight = weight
+        vote.save()
+    else:
+        vote = Vote.objects.create(
+            user=user,
+            answer=answer,
+            weight=weight
+        )
+    return JsonResponse(dict(
+        {'ok': True},
+        **model_to_dict(vote)
+    ))
