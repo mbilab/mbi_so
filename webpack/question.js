@@ -18,6 +18,8 @@
   )
   const loadAnswers = () => {
     $.getJSON('./answers', j => {
+      for (const x in j.answers)
+        j.answers[x].date = moment(j.answers[x].date).fromNow()
       const tmpl = $('#answers-tmpl').html()
       $('#answers').html(Mustache.render(tmpl, j))
     })

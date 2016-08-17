@@ -32,7 +32,7 @@ def answers(request, pk):
     question = get_object_or_404(Question, pk=pk)
     answers = question.answer_set.all()[:QUESTION_N_ANSWER]
     return JsonResponse({
-        'answers': list(answers.values('user', 'content', 'date'))
+        'answers': list(answers.values('user__username', 'date', 'content'))
     })
 
 class IndexView(generic.FormView):
@@ -74,5 +74,5 @@ class QuestionDetailView(generic.CreateView):
 def questions(request):
     questions = Question.objects.all()[:INDEX_N_QUESTION].annotate(Count('answer'))
     return JsonResponse({
-        'questions': list(questions.values('pk', 'user__username', 'title', 'content', 'date', 'answer__count'))
+        'questions': list(questions.values('pk', 'answer__count', 'user__username', 'date', 'title', 'content'))
     })

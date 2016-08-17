@@ -8,7 +8,7 @@ block content
       i.user.icon
       span {{ question.user }}
       i.calendar.outline.icon
-      span.date {{ question.date|date }}
+      span.date {{ question.date|date:'c' }}
   p {{ question.content }}
   .ui.divider
   form.ui.form(action='{% url "so_app:answer_create" pk=question.pk %}',method='post')
@@ -30,6 +30,12 @@ block content
           button.ui.basic.mini.icon.button: i.chevron.up.icon
           div {vote}
           button.ui.basic.mini.icon.button: i.chevron.down.icon
-        .content {content}
+        .content
+          .meta
+            i.user.icon
+            span {user__username}
+            i.calendar.outline.icon
+            span {date}
+          | {content}
       {/answers}
 // vi:et:sw=2:ts=2
