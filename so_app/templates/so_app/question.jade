@@ -2,7 +2,13 @@ extends base
 
 - load widget_tweaks
 block content
-  h1.ui.header {{ question.title }}
+  h1.ui.header
+    | {{ question.title }}
+    .ui.sub.header
+      i.user.icon
+      span {{ question.user }}
+      i.calendar.outline.icon
+      span.date {{ question.date|date }}
   p {{ question.content }}
   .ui.divider
   form.ui.form(action='{% url "so_app:answer_create" pk=question.pk %}',method='post')
@@ -20,7 +26,10 @@ block content
     .ui.relaxed.divided.items
       {#answers}
       .item
-        i.large.middle.aligned.user.icon
+        .image
+          button.ui.basic.mini.icon.button: i.chevron.up.icon
+          div {vote}
+          button.ui.basic.mini.icon.button: i.chevron.down.icon
         .content {content}
       {/answers}
 // vi:et:sw=2:ts=2

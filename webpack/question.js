@@ -13,6 +13,9 @@
   })
 
   // data
+  $('h1 .date').text(
+    moment($('h1 .date').text()).fromNow()
+  )
   const loadAnswers = () => {
     $.getJSON('./answers', j => {
       const tmpl = $('#answers-tmpl').html()
