@@ -31,15 +31,30 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'so_app',
-    'webpack_loader',
-    'widget_tweaks',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    #'allauth.socialaccount.providers.dropbox',
+    #'allauth.socialaccount.providers.dropbox_oauth2',
+    #'allauth.socialaccount.providers.facebook',
+    #'allauth.socialaccount.providers.github',
+    #'allauth.socialaccount.providers.google',
+    #'allauth.socialaccount.providers.instagram',
+    #'allauth.socialaccount.providers.linkedin',
+    #'allauth.socialaccount.providers.linkedin_oauth2',
+    #'allauth.socialaccount.providers.slack',
+    #'allauth.socialaccount.providers.tumblr',
+    #'allauth.socialaccount.providers.twitter',
+    'webpack_loader',
+    'widget_tweaks',
+    'so_app',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -131,6 +146,16 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
 
 WEBPACK_LOADER = {
     'DEFAULT': {
