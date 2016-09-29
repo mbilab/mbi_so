@@ -4,6 +4,9 @@ block content
   h1.ui.header mbi stackoverflow
   p#auth
   script#auth-tmpl(type='x-tmpl-mustache')
+    {#username}
+    | Hello, {.}
+    {/username}
     {#login}
     button.ui.primary.basic.button.login-button
       i.sign.in.icon
