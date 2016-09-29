@@ -29,7 +29,11 @@ window.modalForm = ($trigger, $modal, success) => {
     }
   })
   $form.ajaxForm({
+    error: j => {
+      console.log(j)
+    },
     success: j => {
+      console.log(j)
       if (j.ok) {
         $modal.modal('hide')
         success()

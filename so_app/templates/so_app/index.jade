@@ -12,7 +12,7 @@ block content
   .ui.small.modal#login-modal
     i.close.icon
     .header Login
-    .content: form.ui.form(action='{% url "so_app:login" %}',method='post')
+    .content: form.ui.form(action='{% url "account_login" %}',method='post')
       - csrf_token
       {{ login_form.as_p }}
     .actions
