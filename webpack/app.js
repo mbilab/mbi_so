@@ -9,14 +9,17 @@ require('semantic-ui/dist/semantic.js')
 
 // server-side error message //! reusable
 window.serverSideError = (err, $form) => {
+  $form.addClass('error')
+  if (err.__all__)
+    $form.find('.error.message').text(err.__all__)
   for (const key in err)
     $form.find(`[name='${key}']`).parent().addClass('error')
       .find('label > span').text(` (${err[key][0]})`)
 }
 
-window.modalForm = ($trigger, $modal, success) => {
+window.modalForm = (trigger, $modal, success) => {
   const $form = $modal.find('form')
-  $trigger.click(() => {
+  $('body').on('click', trigger, () => {
     $modal.modal('show')
   })
   $modal.modal({
@@ -25,7 +28,7 @@ window.modalForm = ($trigger, $modal, success) => {
       return false
     },
     onHide: () => {
-      $modal.find('.error.field').removeClass('error')
+      $form.removeClass('error').find('.error.field').removeClass('error')
     }
   })
   $form.ajaxForm({
@@ -49,8 +52,18 @@ $(() => {
   $('.ui.form select').dropdown()
   Mustache.tags = ['{', '}']
 
+  // data
+  const loadAuth = () => {
+    $.getJSON('./auth', j => {
+      const tmpl = $('#auth-tmpl').html()
+      $('#auth').html(Mustache.render(tmpl, j))
+    })
+  }
+  loadAuth()
+
   // behavior
-  modalForm($('.login-button'), $('#login-modal'), () => {})
+  modalForm('.login-button', $('#login-modal'), loadAuth)
+  modalForm('.logout-button', $('#logout-modal'), loadAuth)
 
   if ($('#answers').length)
     require('./question.js')

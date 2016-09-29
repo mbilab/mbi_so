@@ -11,7 +11,7 @@
   loadQuestions()
 
   // behavior
-  modalForm($('#ask-button'), $('#ask-modal'), loadQuestions)
+  modalForm('#ask-button', $('#ask-modal'), loadQuestions)
 })(jQuery)
 
 // vi:et

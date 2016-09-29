@@ -41,6 +41,16 @@ def answers(request, pk):
         'answers': list(answers.values('pk', 'vote__weight', 'vote__count', 'user__username', 'date', 'content'))
     })
 
+def auth(request):
+    if request.user.is_authenticated():
+        return JsonResponse({
+            'logout': True,
+            'username': request.user.username
+        })
+    return JsonResponse({
+        'login': True
+    })
+
 class IndexView(generic.ListView):
     model = Question
     paginate_by = INDEX_N_QUESTION
@@ -63,7 +73,7 @@ def question_create(request):
         title=request.POST['title'],
         content=request.POST['content']
     )
-    return JsonResponse(dict(**model_to_dict(question)))
+    return JsonResponse(model_to_dict(question))
 
 class QuestionDetailView(generic.edit.FormMixin, generic.DetailView):
     model = Question
@@ -91,7 +101,4 @@ def vote(request, pk, weight):
             answer=answer,
             weight=weight
         )
-    return JsonResponse(dict(
-        {'ok': True},
-        **model_to_dict(vote)
-    ))
+    return JsonResponse(model_to_dict(vote))

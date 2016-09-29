@@ -5,7 +5,7 @@ from . import views
 app_name = 'so_app'
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
-    url(r'^login$', views.questions, name='login'),
+    url(r'^auth$', views.auth, name='auth'),
     url(r'^questions$', views.questions, name='questions'),
     url(r'^question/create$', views.question_create, name='question_create'),
     url(r'^question/(?P<pk>[0-9]+)/$', views.QuestionDetailView.as_view(), name='question_detail'),
