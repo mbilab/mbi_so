@@ -9,9 +9,9 @@ require('semantic-ui/dist/semantic.js')
 
 // server-side error message //! reusable
 window.serverSideError = (err, $form) => {
-   for (const key in err)
-     $form.find(`[name='${key}']`).parent().addClass('error')
-       .find('label > span').text(` (${err[key][0]})`)
+  for (const key in err)
+    $form.find(`[name='${key}']`).parent().addClass('error')
+      .find('label > span').text(` (${err[key][0]})`)
 }
 
 window.modalForm = ($trigger, $modal, success) => {
@@ -29,18 +29,16 @@ window.modalForm = ($trigger, $modal, success) => {
     }
   })
   $form.ajaxForm({
-    error: j => {
-      console.log(j)
+    error: xhr => {
+      serverSideError(
+        xhr.responseJSON.form_errors || xhr.responseJSON,
+        $form
+      )
     },
     success: j => {
-      console.log(j)
-      if (j.ok) {
-        $modal.modal('hide')
-        success()
-        $form[0].reset()
-      } else {
-        serverSideError(j, $form)
-      }
+      $modal.modal('hide')
+      success()
+      $form[0].reset()
     },
   })
 }

@@ -55,17 +55,15 @@ class IndexView(generic.ListView):
 def question_create(request):
     form = QuestionForm(request.POST)
     if form.is_valid() == False:
-        return JsonResponse(form.errors)
+        return JsonResponse(form.errors, status=400)
     user = get_object_or_404(User, pk=1) #! should be current login user
     question = Question.objects.create(
+    #question = Question(
         user=user,
         title=request.POST['title'],
         content=request.POST['content']
     )
-    return JsonResponse(dict(
-        {'ok': True},
-        **model_to_dict(question)
-    ))
+    return JsonResponse(dict(**model_to_dict(question)))
 
 class QuestionDetailView(generic.edit.FormMixin, generic.DetailView):
     model = Question

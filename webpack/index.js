@@ -1,7 +1,4 @@
 ($ => {
-  // behavior
-  modalForm($('#ask-button'), $('#ask-modal'), loadQuestions)
-
   // data
   const loadQuestions = () => {
     $.getJSON('./questions', j => {
@@ -12,6 +9,9 @@
     })
   }
   loadQuestions()
+
+  // behavior
+  modalForm($('#ask-button'), $('#ask-modal'), loadQuestions)
 })(jQuery)
 
 // vi:et
