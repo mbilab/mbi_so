@@ -41,19 +41,16 @@ def answers(request, pk):
         'answers': list(answers.values('pk', 'vote__weight', 'vote__count', 'user__username', 'date', 'content'))
     })
 
-class IndexView(generic.FormView):
-    form_class = LoginForm
+class IndexView(generic.ListView):
+    model = Question
+    paginate_by = INDEX_N_QUESTION
     template_name = 'so_app/index.jade'
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
-        #context['login_form'] = LoginForm()
-        context['login_form'] = self.form_class()
-        context['question_form'] = QuestionForm()
+        context['login_form'] = LoginForm
+        context['question_form'] = QuestionForm
         return context
-
-    def get_queryset(self):
-        return Question.objects.all()[:INDEX_N_QUESTION]
 
 def question_create(request):
     form = QuestionForm(request.POST)
@@ -74,16 +71,6 @@ class QuestionDetailView(generic.edit.FormMixin, generic.DetailView):
     model = Question
     form_class = AnswerForm
     template_name = 'so_app/question.jade'
-'''
-class QuestionDetailView(generic.CreateView):
-    model = Answer
-    fields = ['content']
-    template_name = 'so_app/question.jade'
-    def get_context_data(self, **kwargs):
-        context = super(QuestionDetailView, self).get_context_data(**kwargs)
-        context['question'] = Question.objects.get(pk=self.kwargs.get('pk'))
-        return context
-'''
 
 def questions(request):
     questions = Question.objects.all()[:INDEX_N_QUESTION].annotate(Count('answer'))
