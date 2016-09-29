@@ -2,15 +2,28 @@ extends base
 
 block content
   h1.ui.header mbi stackoverflow
-  p: button.ui.primary.basic.button#ask-button
-    i.plus.icon
-    | Ask a question
-  .ui.small.modal
+  p
+    button.ui.primary.basic.button.login-button
+      i.user.icon
+      | Login
+    button.ui.primary.basic.button#ask-button
+      i.plus.icon
+      | Ask a question
+  .ui.small.modal#login-modal
+    i.close.icon
+    .header Login
+    .content: form.ui.form(action='{% url "so_app:login" %}',method='post')
+      - csrf_token
+      {{ login_form.as_p }}
+    .actions
+      .ui.basic.cancel.button Cancel
+      .ui.primary.basic.approve.button Login
+  .ui.small.modal#ask-modal
     i.close.icon
     .header Ask a quesion
     .content: form.ui.form(action='{% url "so_app:question_create" %}',method='post')
       - csrf_token
-      {{ form.as_p }}
+      {{ question_form.as_p }}
     .actions
       .ui.basic.cancel.button Cancel
       .ui.primary.basic.approve.button Ask

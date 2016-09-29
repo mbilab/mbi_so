@@ -14,13 +14,42 @@ window.serverSideError = (err, $form) => {
        .find('label > span').text(` (${err[key][0]})`)
 }
 
+window.modalForm = ($trigger, $modal, success) => {
+  const $form = $modal.find('form')
+  $trigger.click(() => {
+    $modal.modal('show')
+  })
+  $modal.modal({
+    onApprove: () => {
+      $form.submit()
+      return false
+    },
+    onHide: () => {
+      $modal.find('.error.field').removeClass('error')
+    }
+  })
+  $form.ajaxForm({
+    success: j => {
+      if (j.ok) {
+        $modal.modal('hide')
+        success()
+        $form[0].reset()
+      } else {
+        serverSideError(j, $form)
+      }
+    },
+  })
+}
+
 $(() => {
   $('.ui.form > p').addClass('field')
     .find('label').append('<span/>')
   $('.ui.form select').dropdown()
   Mustache.tags = ['{', '}']
 
-  // data
+  // behavior
+  modalForm($('.login-button'), $('#login-modal'), () => {})
+
   if ($('#answers').length)
     require('./question.js')
   else if ($('#questions').length)

@@ -1,3 +1,4 @@
+from allauth.account.forms import LoginForm
 from django.db.models import NullBooleanField, Case, Count, F, Q, When
 from datetime import datetime
 from django.views import generic
@@ -41,8 +42,16 @@ def answers(request, pk):
     })
 
 class IndexView(generic.FormView):
-    form_class = QuestionForm
+    form_class = LoginForm
     template_name = 'so_app/index.jade'
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        #context['login_form'] = LoginForm()
+        context['login_form'] = self.form_class()
+        context['question_form'] = QuestionForm()
+        return context
+
     def get_queryset(self):
         return Question.objects.all()[:INDEX_N_QUESTION]
 

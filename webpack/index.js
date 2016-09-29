@@ -1,28 +1,6 @@
 ($ => {
   // behavior
-  $('#ask-button').click(() => {
-    $('.ui.modal').modal('show')
-  })
-  $('.ui.modal').modal({
-    onApprove: () => {
-      $('form').submit()
-      return false
-    },
-    onHide: () => {
-      $('.ui.form .error.field').removeClass('error')
-    }
-  })
-  $('form').ajaxForm({
-    success: j => {
-      if (j.ok) {
-        $('.ui.modal').modal('hide')
-        loadQuestions()
-        $('form')[0].reset()
-      } else {
-        serverSideError(j, $('form'))
-      }
-    },
-  })
+  modalForm($('#ask-button'), $('#ask-modal'), loadQuestions)
 
   // data
   const loadQuestions = () => {
