@@ -4,6 +4,7 @@ import './app.sass'
 import 'imports?define=>false,exports=>false,this=>window!moment/moment.js'
 import 'imports?define=>false,exports=>false,this=>window!mustache/mustache.js'
 const $ = window.jQuery = require('jquery/dist/jquery.js')
+require('jquery.cookie/jquery.cookie.js')
 require('jquery-form/jquery.form.js')
 require('semantic-ui/dist/semantic.js')
 
@@ -38,7 +39,7 @@ window.modalForm = (trigger, $modal, success) => {
         $form
       )
     },
-    success: j => {
+    success: () => {
       $modal.modal('hide')
       success()
       $form[0].reset()
@@ -57,6 +58,7 @@ $(() => {
     $.getJSON('./auth', j => {
       const tmpl = $('#auth-tmpl').html()
       $('#auth').html(Mustache.render(tmpl, j))
+      $('[name=csrfmiddlewaretoken]').val($.cookie('csrftoken'))
     })
   }
   loadAuth()
