@@ -8,11 +8,25 @@ require('jquery.cookie/jquery.cookie.js')
 require('jquery-form/jquery.form.js')
 require('semantic-ui/dist/semantic.js')
 
+window.message = text => {
+  const tmpl = $('#message-tmpl').html()
+  const $message = $(Mustache.render(tmpl, {text: text})).appendTo($('#messages'))
+  $message.transition('fade left')
+  setTimeout(() => {
+    $message.transition({
+      animation: 'fade left',
+      onComplete: () => {
+        $message.remove()
+      },
+    })
+  }, 3000)
+}
+
 // server-side error message //! reusable
 window.serverSideError = (err, $form) => {
   $form.addClass('error')
   if (err.__all__)
-    $form.find('.error.message').text(err.__all__)
+    message(err.__all__)
   for (const key in err)
     $form.find(`[name='${key}']`).parent().addClass('error')
       .find('label > span').text(` (${err[key][0]})`)
@@ -29,7 +43,7 @@ window.modalForm = (trigger, $modal, success) => {
       return false
     },
     onHide: () => {
-      $form.removeClass('error').find('.error.field').removeClass('error')
+      $form.find('.error.field').removeClass('error')
     }
   })
   $form.ajaxForm({
@@ -66,6 +80,9 @@ $(() => {
   // behavior
   modalForm('.login-button', $('#login-modal'), loadAuth)
   modalForm('.logout-button', $('#logout-modal'), loadAuth)
+  $('#messages').on('click', '.message .close', function(){
+    $(this).closest('.message').transition('fade left')
+  })
 
   if ($('#answers').length)
     require('./question.js')

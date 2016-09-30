@@ -23,9 +23,8 @@ block content
   .ui.small.modal#login-modal
     i.close.icon
     .header Login
-    .content: form.ui.error.form(action='{% url "account_login" %}',method='post')
+    .content: form.ui.form(action='{% url "account_login" %}',method='post')
       - csrf_token
-      .ui.error.message
       {{ login_form.as_p }}
     .actions
       .ui.basic.cancel.button Cancel
@@ -33,7 +32,7 @@ block content
   .ui.small.modal#logout-modal
     i.close.icon
     .header Logout
-    .content: form.ui.error.form(action='{% url "account_logout" %}',method='post')
+    .content: form.ui.form(action='{% url "account_logout" %}',method='post')
       - csrf_token
       p Are you sure you want to sign out?
     .actions
@@ -44,7 +43,6 @@ block content
     .header Ask a quesion
     .content: form.ui.form(action='{% url "so_app:question_create" %}',method='post')
       - csrf_token
-      .ui.error.message
       {{ question_form.as_p }}
     .actions
       .ui.basic.cancel.button Cancel
@@ -66,5 +64,10 @@ block content
             i.calendar.outline.icon
             span {date}
       {/questions}
+  #messages
+  script#message-tmpl(type='x-tmpl-mustache')
+    .ui.mini.error.message
+      i.close.icon
+      | {text}
 
 // vi:et:sw=2:ts=2

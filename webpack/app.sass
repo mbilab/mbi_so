@@ -1,5 +1,5 @@
 .ui.container
-  margin-top: 2rem
+  padding-top: 2rem
 
 .ui.form label > span
   display: none
@@ -18,6 +18,18 @@ h1.ui.header > .sub.header
     font-size: 1em
     padding-top: 0
     vertical-align: top
+
+#messages
+  right: 0
+  padding-right: 1em
+  padding-top: 1em
+  position: absolute
+  top: 0
+  z-index: 1001 // higher than semantic-ui dimmer
+
+  >.message
+    display: none
+    padding-right: 2em
 
 #answers
   .item .image
