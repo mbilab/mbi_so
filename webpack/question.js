@@ -1,14 +1,17 @@
 ($ => {
   // behavior
   $('#answer-form').ajaxForm({
-    success: j => {
-      if (j.ok) {
-        $('#answer-form .error.field').removeClass('error')
-        loadAnswers()
-        $('#answer-form')[0].reset()
-      } else {
-        serverSideError(j, $('#answer-form'))
-      }
+    error: xhr => {
+      console.log(xhr)
+      serverSideError(
+        xhr.responseJSON.form_errors || xhr.responseJSON,
+        $('#answer-form')
+      )
+    },
+    success: () => {
+      $('#answer-form .error.field').removeClass('error')
+      loadAnswers()
+      $('#answer-form')[0].reset()
     },
   })
   $('#answers').on('click', 'button[type="submit"]', function(){

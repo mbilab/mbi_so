@@ -24,7 +24,6 @@ window.message = text => {
 
 // server-side error message //! reusable
 window.serverSideError = (err, $form) => {
-  $form.addClass('error')
   if (err.__all__)
     message(err.__all__)
   for (const key in err)
@@ -69,8 +68,9 @@ $(() => {
 
   // data
   const loadAuth = () => {
-    $.getJSON('./auth', j => {
-      const tmpl = $('#auth-tmpl').html()
+    const tmpl = $('#auth-tmpl').html()
+    if (!tmpl) return
+    $.getJSON('/auth', j => {
       $('#auth').html(Mustache.render(tmpl, j))
       $('[name=csrfmiddlewaretoken]').val($.cookie('csrftoken'))
     })

@@ -16,18 +16,23 @@ from .settings import *
 def answer_create(request, pk):
     form = AnswerForm(request.POST)
     if form.is_valid() == False:
-        return JsonResponse(form.errors)
-    user = get_object_or_404(User, pk=1) #! should be current login user
+        return JsonResponse(
+            dict({
+               '__all__': 'Answer cannot be empty', # use __all__ to utalize the message system
+                **form.errors
+            }),
+            status=400
+        )
+    if request.user.is_authenticated() == False:
+        return JsonResponse({'__all__': 'Please login to answer'}, status=400)
     question = get_object_or_404(Question, pk=pk)
     answer = Answer.objects.create(
-        user=user,
+    #answer = Answer(
+        user=request.user,
         question=question,
         content=request.POST['content']
     )
-    return JsonResponse(dict(
-        {'ok': True},
-        **model_to_dict(answer)
-    ))
+    return JsonResponse(model_to_dict(answer))
 
 def answers(request, pk):
     question = get_object_or_404(Question, pk=pk)
@@ -103,3 +108,5 @@ def vote(request, pk, weight):
             weight=weight
         )
     return JsonResponse(model_to_dict(vote))
+
+# vi:et:sw=4:ts=4
