@@ -78,10 +78,15 @@ def question_create(request):
     )
     return JsonResponse(model_to_dict(question))
 
-class QuestionDetailView(generic.edit.FormMixin, generic.DetailView):
+class QuestionDetailView(generic.DetailView):
     model = Question
-    form_class = AnswerForm
     template_name = 'so_app/question.jade'
+
+    def get_context_data(self, **kwargs):
+        context = super(QuestionDetailView, self).get_context_data(**kwargs)
+        context['answer_form'] = AnswerForm
+        context['login_form'] = LoginForm
+        return context
 
 def questions(request):
     questions = Question.objects.all()[:INDEX_N_QUESTION].annotate(Count('answer'))

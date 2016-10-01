@@ -15,7 +15,7 @@ block content
     - csrf_token
     .inline.fields
       .thirteen.wide.field
-        - render_field form.content rows='1'
+        - render_field answer_form.content rows='1'
       .three.wide.field: button.ui.primary.basic.button(type='submit')
         i.plus.icon
         | Answer
@@ -42,6 +42,5 @@ block content
             span {date}
           | {content}
       {/answers}
-  include ./messages.jade
 
 // vi:et:sw=2:ts=2

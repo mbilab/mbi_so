@@ -11,15 +11,19 @@ require('semantic-ui/dist/semantic.js')
 window.message = text => {
   const tmpl = $('#message-tmpl').html()
   const $message = $(Mustache.render(tmpl, {text: text})).appendTo($('#messages'))
-  $message.transition('fade left')
+  $message.transition('fade left in')
   setTimeout(() => {
-    $message.transition({
-      animation: 'fade left',
-      onComplete: () => {
-        $message.remove()
-      },
-    })
+    messageOff($message)
   }, 3000)
+}
+
+window.messageOff = $message => {
+  $message.transition({
+    animation: 'fade left out',
+    onComplete: () => {
+      $message.remove()
+    },
+  })
 }
 
 // server-side error message //! reusable
@@ -82,7 +86,7 @@ $(() => {
   modalForm('.login-button', $('#login-modal'), loadAuth)
   modalForm('.logout-button', $('#logout-modal'), loadAuth)
   $('#messages').on('click', '.message .close', function(){
-    $(this).closest('.message').transition('fade left')
+    messageOff($(this).closest('.message'))
   })
 
   if ($('#answers').length)

@@ -24,6 +24,24 @@ html
       {/logout}
 
     .ui.container
+      .ui.small.modal#login-modal
+        i.close.icon
+        .header Login
+        .content: form.ui.form(action='{% url "account_login" %}',method='post')
+          - csrf_token
+          {{ login_form.as_p }}
+        .actions
+          .ui.basic.cancel.button Cancel
+          .ui.primary.basic.approve.button Login
+      .ui.small.modal#logout-modal
+        i.close.icon
+        .header Logout
+        .content: form.ui.form(action='{% url "account_logout" %}',method='post')
+          - csrf_token
+          p Are you sure you want to sign out?
+        .actions
+          .ui.basic.cancel.button Cancel
+          .ui.primary.basic.approve.button Logout
       block content
 
     #messages
