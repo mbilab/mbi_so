@@ -38,7 +38,7 @@ def answers(request, pk):
     if request.user.is_authenticated():
         vote_weight = Case(When(vote__user=request.user, then=F('vote__weight')), default=None, output_field=NullBooleanField())
     else:
-        vote_weight = Value(None)
+        vote_weight = Value(None, output_field=NullBooleanField())
     answers = question.answer_set.all()[:QUESTION_N_ANSWER].annotate(
         vote__count=up_count - down_count,
         vote__weight=vote_weight

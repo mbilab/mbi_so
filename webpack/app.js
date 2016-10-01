@@ -8,6 +8,15 @@ require('jquery.cookie/jquery.cookie.js')
 require('jquery-form/jquery.form.js')
 require('semantic-ui/dist/semantic.js')
 
+window.loadAuth = () => {
+  const tmpl = $('#auth-tmpl').html()
+  if (!tmpl) return
+  $.getJSON('/auth', j => {
+    $('#auth').html(Mustache.render(tmpl, j))
+    $('[name=csrfmiddlewaretoken]').val($.cookie('csrftoken'))
+  })
+}
+
 window.message = text => {
   const tmpl = $('#message-tmpl').html()
   const $message = $(Mustache.render(tmpl, {text: text})).appendTo($('#messages'))
@@ -72,19 +81,11 @@ $(() => {
   Mustache.tags = ['{', '}']
 
   // data
-  const loadAuth = () => {
-    const tmpl = $('#auth-tmpl').html()
-    if (!tmpl) return
-    $.getJSON('/auth', j => {
-      $('#auth').html(Mustache.render(tmpl, j))
-      $('[name=csrfmiddlewaretoken]').val($.cookie('csrftoken'))
-    })
-  }
   loadAuth()
 
   // behavior
-  modalForm('.login-button', $('#login-modal'), loadAuth)
-  modalForm('.logout-button', $('#logout-modal'), loadAuth)
+  //modalForm('.login-button', $('#login-modal'), loadAuth)
+  //modalForm('.logout-button', $('#logout-modal'), loadAuth)
   $('#messages').on('click', '.message .close', function(){
     messageOff($(this).closest('.message'))
   })

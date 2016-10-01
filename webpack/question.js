@@ -26,6 +26,14 @@
     })
     return false
   })
+  modalForm('.login-button', $('#login-modal'), () => {
+    loadAuth()
+    loadAnswers()
+  })
+  modalForm('.logout-button', $('#logout-modal'), () => {
+    loadAuth()
+    loadAnswers()
+  })
 
   // data
   $('h1 .date').text(
