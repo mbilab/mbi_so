@@ -7,15 +7,22 @@
         $('#answer-form')
       )
     },
-    success: j => {
+    success: () => {
       $('#answer-form .error.field').removeClass('error')
       loadAnswers()
       $('#answer-form')[0].reset()
     },
   })
   $('#answers').on('click', 'button[type="submit"]', function(){
-    $(this).parent('form').ajaxSubmit(j => {
-      loadAnswers()
+    const $form = $(this).parent('form')
+    $form.ajaxSubmit({
+      error: xhr => {
+        serverSideError(
+          xhr.responseJSON.form_errors || xhr.responseJSON,
+          $form
+        )
+      },
+      success: loadAnswers,
     })
     return false
   })

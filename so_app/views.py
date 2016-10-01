@@ -1,5 +1,5 @@
 from allauth.account.forms import LoginForm
-from django.db.models import NullBooleanField, Case, Count, F, Q, When
+from django.db.models import NullBooleanField, Case, Count, F, Q, Value, When
 from datetime import datetime
 from django.views import generic
 from django.shortcuts import get_object_or_404, render
@@ -35,10 +35,14 @@ def answers(request, pk):
     question = get_object_or_404(Question, pk=pk)
     up_count   = Count(Case(When(vote__weight=True,  then=1)))
     down_count = Count(Case(When(vote__weight=False, then=1)))
+    if request.user.is_authenticated():
+        vote_weight = Case(When(vote__user=request.user, then=F('vote__weight')), default=None, output_field=NullBooleanField())
+    else:
+        vote_weight = Value(None)
     answers = question.answer_set.all()[:QUESTION_N_ANSWER].annotate(
         vote__count=up_count - down_count,
-        vote__weight=Case(When(vote__user=1, then=F('vote__weight')), default=None, output_field=NullBooleanField()) #! should be current login user
-    )
+        vote__weight=vote_weight
+    ) #! should be current login user
     return JsonResponse({
         'answers': list(answers.values('pk', 'vote__weight', 'vote__count', 'user__username', 'date', 'content'))
     })
@@ -95,17 +99,18 @@ def questions(request):
     })
 
 def vote(request, pk, weight):
-    user = get_object_or_404(User, pk=1) #! should be current login user
+    if request.user.is_authenticated() == False:
+        return JsonResponse({'__all__': 'Please login to vote'}, status=400)
     answer = get_object_or_404(Answer, pk=pk)
     weight = weight == 'up'
-    votes = Vote.objects.filter(user=user, answer=answer)
+    votes = Vote.objects.filter(user=request.user, answer=answer)
     if votes.count() > 0:
         vote = votes[0]
         vote.weight = None if vote.weight == weight else weight
         vote.save()
     else:
         vote = Vote.objects.create(
-            user=user,
+            user=request.user,
             answer=answer,
             weight=weight
         )
