@@ -33,7 +33,8 @@ window.serverSideError = (err, $form) => {
 
 window.modalForm = (trigger, $modal, success) => {
   const $form = $modal.find('form')
-  $('body').on('click', trigger, () => {
+  $('body').on('click', trigger, e => {
+    e.preventDefault()
     $modal.modal('show')
   })
   $modal.modal({

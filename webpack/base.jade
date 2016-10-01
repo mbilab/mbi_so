@@ -1,11 +1,37 @@
 - load render_bundle from webpack_loader
 doctype html
 html
+
   head
+
     title mbi stackoverflow
     - render_bundle 'main' 'css'
+
   body
+
+    #auth
+    script#auth-tmpl(type='x-tmpl-mustache')
+      {#username}
+      | Hello, {.} |&nbsp;
+      {/username}
+      {#login}
+      button.ui.primary.basic.button.login-button
+        i.sign.in.icon
+        | Login
+      {/login}
+      {#logout}
+      a.logout-button(href="#") logout
+      {/logout}
+
     .ui.container
       block content
+
+    #messages
+    script#message-tmpl(type='x-tmpl-mustache')
+      .ui.mini.error.message
+        i.close.icon
+        | {text}
+
     - render_bundle 'main' 'js'
+
 // vi:et:sw=2:ts=2

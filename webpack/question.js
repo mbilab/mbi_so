@@ -2,13 +2,12 @@
   // behavior
   $('#answer-form').ajaxForm({
     error: xhr => {
-      console.log(xhr)
       serverSideError(
         xhr.responseJSON.form_errors || xhr.responseJSON,
         $('#answer-form')
       )
     },
-    success: () => {
+    success: j => {
       $('#answer-form .error.field').removeClass('error')
       loadAnswers()
       $('#answer-form')[0].reset()

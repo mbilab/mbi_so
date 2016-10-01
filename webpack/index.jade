@@ -2,24 +2,9 @@ extends base
 
 block content
   h1.ui.header mbi stackoverflow
-  p#auth
-  script#auth-tmpl(type='x-tmpl-mustache')
-    {#username}
-    | Hello, {.}
-    {/username}
-    {#login}
-    button.ui.primary.basic.button.login-button
-      i.sign.in.icon
-      | Login
-    {/login}
-    {#logout}
-    button.ui.primary.basic.button.logout-button
-      i.sign.out.icon
-      | Logout
-    {/logout}
-    button.ui.primary.basic.button#ask-button
-      i.plus.icon
-      | Ask a question
+  p: button.ui.primary.basic.button#ask-button
+    i.plus.icon
+    | Ask a question
   .ui.small.modal#login-modal
     i.close.icon
     .header Login
@@ -64,6 +49,5 @@ block content
             i.calendar.outline.icon
             span {date}
       {/questions}
-  include ./messages.jade
 
 // vi:et:sw=2:ts=2

@@ -16,13 +16,10 @@ from .settings import *
 def answer_create(request, pk):
     form = AnswerForm(request.POST)
     if form.is_valid() == False:
-        return JsonResponse(
-            dict({
-               '__all__': 'Answer cannot be empty', # use __all__ to utalize the message system
-                **form.errors
-            }),
-            status=400
-        )
+        return JsonResponse({
+            '__all__': 'Answer cannot be empty', # use __all__ to utalize the message system
+            **form.errors
+        }, status=400)
     if request.user.is_authenticated() == False:
         return JsonResponse({'__all__': 'Please login to answer'}, status=400)
     question = get_object_or_404(Question, pk=pk)
