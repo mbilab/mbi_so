@@ -7,8 +7,7 @@
         $('#answer-form')
       )
     },
-    success: j => {
-      console.log(j)
+    success: () => {
       $('#answer-form .error.field').removeClass('error')
       loadAnswers()
       $('#answer-form')[0].reset()
