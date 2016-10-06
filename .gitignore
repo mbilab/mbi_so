@@ -1,13 +1,10 @@
-npm-debug.log
-bower_components/
+db.sqlite3
+dist/
 node_modules/
 npm-debug.log
-dist/
 port
+Stack-Overflow.md
 webpack-stats.json
-db.sqlite3
-website/gmail_account.py
-secret.txt
 
 ## Django
 # Byte-compiled / optimized / DLL files

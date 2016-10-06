@@ -1,4 +1,4 @@
-from allauth.account.forms import LoginForm
+from allauth.account.forms import LoginForm, SignupForm
 from django.db.models import NullBooleanField, Case, Count, F, Q, Value, When
 from datetime import datetime
 from django.views import generic
@@ -42,7 +42,7 @@ def answers(request, pk):
     answers = question.answer_set.all()[:QUESTION_N_ANSWER].annotate(
         vote__count=up_count - down_count,
         vote__weight=vote_weight
-    ) #! should be current login user
+    )
     return JsonResponse({
         'answers': list(answers.values('pk', 'vote__weight', 'vote__count', 'user__username', 'date', 'content'))
     })
@@ -66,6 +66,7 @@ class IndexView(generic.ListView):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['login_form'] = LoginForm
         context['question_form'] = QuestionForm
+        context['signup_form'] = SignupForm
         return context
 
 def question_create(request):
@@ -90,6 +91,7 @@ class QuestionDetailView(generic.DetailView):
         context = super(QuestionDetailView, self).get_context_data(**kwargs)
         context['answer_form'] = AnswerForm
         context['login_form'] = LoginForm
+        context['signup_form'] = SignupForm
         return context
 
 def questions(request):

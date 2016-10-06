@@ -44,6 +44,7 @@ window.serverSideError = (err, $form) => {
       .find('label > span').text(` (${err[key][0]})`)
 }
 
+// form inside a semantic-ui modal //! reusable
 window.modalForm = (trigger, $modal, success) => {
   const $form = $modal.find('form')
   $('body').on('click', trigger, e => {
@@ -84,8 +85,6 @@ $(() => {
   loadAuth()
 
   // behavior
-  //modalForm('.login-button', $('#login-modal'), loadAuth)
-  //modalForm('.logout-button', $('#logout-modal'), loadAuth)
   $('#messages').on('click', '.message .close', function(){
     messageOff($(this).closest('.message'))
   })

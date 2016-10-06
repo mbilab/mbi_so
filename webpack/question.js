@@ -26,14 +26,13 @@
     })
     return false
   })
-  modalForm('.login-button', $('#login-modal'), () => {
+  const onAuth = () => {
     loadAuth()
     loadAnswers()
-  })
-  modalForm('.logout-button', $('#logout-modal'), () => {
-    loadAuth()
-    loadAnswers()
-  })
+  }
+  modalForm('.login-button', $('#login-modal'), onAuth)
+  modalForm('.logout-button', $('#logout-modal'), onAuth)
+  modalForm('.signup-button', $('#signup-modal'), onAuth)
 
   // data
   $('h1 .date').text(

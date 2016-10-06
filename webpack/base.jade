@@ -24,15 +24,20 @@ html
       {/logout}
 
     .ui.container
+
       .ui.small.modal#login-modal
         i.close.icon
         .header Login
         .content: form.ui.form(action='{% url "account_login" %}',method='post')
           - csrf_token
+          p If you have not created an account yet, then please&nbsp;
+            a.signup-button(href='#') sign up
+            |  first.
           {{ login_form.as_p }}
         .actions
           .ui.basic.cancel.button Cancel
           .ui.primary.basic.approve.button Login
+
       .ui.small.modal#logout-modal
         i.close.icon
         .header Logout
@@ -42,6 +47,17 @@ html
         .actions
           .ui.basic.cancel.button Cancel
           .ui.primary.basic.approve.button Logout
+
+      .ui.small.modal#signup-modal
+        i.close.icon
+        .header Sign up
+        .content: form.ui.form(action='{% url "account_signup" %}',method='post')
+          - csrf_token
+          {{ signup_form.as_p }}
+        .actions
+          .ui.basic.cancel.button Cancel
+          .ui.primary.basic.approve.button Sign up
+
       block content
 
     #messages

@@ -2,6 +2,7 @@
   // behavior
   modalForm('.login-button', $('#login-modal'), loadAuth)
   modalForm('.logout-button', $('#logout-modal'), loadAuth)
+  modalForm('.signup-button', $('#signup-modal'), loadAuth)
   modalForm('#ask-button', $('#ask-modal'), loadQuestions)
 
   // data
