@@ -1,17 +1,22 @@
 ($ => {
   // behavior
-  $('#answer-form').ajaxForm({
+  const $answerForm = $('#answer-form').ajaxForm({
     error: xhr => {
       serverSideError(
         xhr.responseJSON.form_errors || xhr.responseJSON,
         $('#answer-form')
       )
     },
-    success: () => {
+    success: j => {
+      console.log(j)
       $('#answer-form .error.field').removeClass('error')
       loadAnswers()
       $('#answer-form')[0].reset()
     },
+  })
+  $answerForm.find('[data-action]').click(function(e){
+    e.preventDefault()
+    $answerForm.attr('action', $(this).data('action')).submit()
   })
   $('#answers').on('click', 'button[type="submit"]', function(){
     const $form = $(this).parent('form')

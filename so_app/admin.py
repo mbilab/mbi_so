@@ -6,10 +6,14 @@ from .models import *
 
 class AnswerInline(admin.TabularInline):
   model = Answer
-  extra = 2
+  extra = 0
+
+class QuestionCommentInline(admin.TabularInline):
+  model = QuestionComment
+  extra = 0
 
 class QuestionAdmin(admin.ModelAdmin):
-  inlines = [AnswerInline]
+  inlines = [AnswerInline, QuestionCommentInline]
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Vote)

@@ -69,6 +69,24 @@ class IndexView(generic.ListView):
         context['signup_form'] = SignupForm
         return context
 
+def question_comment_create(request, pk):
+    form = AnswerForm(request.POST)
+    if form.is_valid() == False:
+        return JsonResponse({
+            '__all__': 'Comment cannot be empty',
+            **form.errors
+        }, status=400)
+    if request.user.is_authenticated() == False:
+        return JsonResponse({'__all__': 'Please login to comment'}, status=400)
+    question = get_object_or_404(Question, pk=pk)
+    comment = QuestionComment.objects.create(
+    #comment = QuestionComment(
+        user=request.user,
+        question=question,
+        content=request.POST['content']
+    )
+    return JsonResponse(model_to_dict(comment))
+
 def question_create(request):
     form = QuestionForm(request.POST)
     if form.is_valid() == False:

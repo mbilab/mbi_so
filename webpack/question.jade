@@ -11,14 +11,19 @@ block content
       span.date {{ question.date|date:'c' }}
   p {{ question.content }}
   .ui.divider
-  form.ui.form#answer-form(action='{% url "so_app:answer_create" pk=question.pk %}',method='post')
+  form.ui.form#answer-form(method='post')
     - csrf_token
     .inline.fields
-      .thirteen.wide.field
+      .twelve.wide.field
         - render_field answer_form.content rows='1'
-      .three.wide.field: button.ui.primary.basic.button(type='submit')
-        i.plus.icon
-        | Answer
+      .four.wide.field: .ui.buttons
+        button.ui.positive.button(data-action='{% url "so_app:question_comment_create" pk=question.pk %}')
+          i.comment.icon
+          | Comment
+        .or
+        button.ui.primary.button(data-action='{% url "so_app:answer_create" pk=question.pk %}')
+          i.plus.icon
+          | Answer
   .ui.divider
   #answers
   script#answers-tmpl(type='x-tmpl-mustache')
