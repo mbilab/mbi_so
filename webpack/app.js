@@ -9,6 +9,12 @@ require('jquery-form/jquery.form.js')
 require('semantic-ui/dist/semantic.js')
 
 window.loadAuth = () => {
+  // http://stackoverflow.com/questions/7131909/facebook-callback-appends-to-return-url
+  if (window.location.hash == '#_=_')
+    history.replaceState 
+    ? history.replaceState(null, null, window.location.href.split('#')[0])
+    : window.location.hash = ''
+
   const tmpl = $('#auth-tmpl').html()
   if (!tmpl) return
   $.getJSON('/auth', j => {

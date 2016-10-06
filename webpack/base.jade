@@ -1,4 +1,5 @@
 - load render_bundle from webpack_loader
+- load socialaccount
 doctype html
 html
 
@@ -37,6 +38,9 @@ html
         .actions
           .ui.basic.cancel.button Cancel
           .ui.primary.basic.approve.button Login
+          a.ui.primary.basic.button(href='{% provider_login_url "facebook" next=request.path process="login" %}')
+            i.facebook.icon
+            | Login via Facebook
 
       .ui.small.modal#logout-modal
         i.close.icon

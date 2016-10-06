@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     #'allauth.socialaccount.providers.dropbox',
     #'allauth.socialaccount.providers.dropbox_oauth2',
-    #'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.facebook',
     #'allauth.socialaccount.providers.github',
     #'allauth.socialaccount.providers.google',
     #'allauth.socialaccount.providers.instagram',
