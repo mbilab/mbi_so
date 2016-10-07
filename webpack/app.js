@@ -48,6 +48,9 @@ window.serverSideError = (err, $form) => {
   for (const key in err)
     $form.find(`[name='${key}']`).parent().addClass('error')
       .find('label > span').text(` (${err[key][0]})`)
+  var $container = $form.closest('.modal')
+  if (!$container.length) $container = $form
+  $container.transition('shake', 150)
 }
 
 // form inside a semantic-ui modal //! reusable
