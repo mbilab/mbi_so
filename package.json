@@ -15,12 +15,12 @@
   "author": "Tien-Hao Chang <darby.chang@gmail.com>",
   "private": true,
   "devDependencies": {
-    "macaddress": "^0.2.9",
-    "parcel-bundler": "^1.11.0",
-    "stylus": "^0.54.5"
+    "macaddress": "^0.5.1",
+    "parcel-bundler": "^1.12.4",
+    "stylus": "^0.54.7"
   },
   "dependencies": {
     "jquery-form": "^4.2.2",
-    "semantic-ui-offline": "^2.3.2"
+    "semantic-ui-offline": "^2.4.1-1"
   }
 }
